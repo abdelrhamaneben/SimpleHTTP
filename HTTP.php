@@ -7,12 +7,19 @@
 *	EN : This function sets the response to an HTTP request
 *
 *	PARAM $message Define the HTTP statusText
-*	PARAM $code Define the HTTP statusCode
+*	PARAM $code Define the HTTP statusCode AND content
 *	RETURN NULL
 */
-function http_response($message = "BAD REQUEST", $statut = 400) {
-	header("HTTP/1.0 ".$statut." ".$message);
-	echo $message;
+function http_response($message = "OK", $statut = 200) {
+	
+	if(is_array($message) || is_object($message)) {
+		header("HTTP/1.0 ".$statut);
+		echo json_encode($message);
+	}
+	else {
+		header("HTTP/1.0 ".$statut." ".$message);
+		echo $message;
+	}
 	exit(0);
 }
 
